@@ -12,12 +12,12 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   isSubmitted  =  false;
-
+  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
   constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder ) { }
 
   ngOnInit() {
     this.loginForm  =  this.formBuilder.group({
-        email: ['', Validators.required],
+        email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
         password: ['', Validators.required]
     });
 }
@@ -32,6 +32,11 @@ login(){
   }
   this.authService.login(this.loginForm.value);
   this.router.navigateByUrl('/admin');
+}
+
+goToRegister()
+{
+  this.router.navigateByUrl('/register');
 }
 
 }
